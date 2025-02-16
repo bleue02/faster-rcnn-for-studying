@@ -1,5 +1,6 @@
 import time
 
+import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib
 import torch
@@ -8,7 +9,7 @@ import visdom
 matplotlib.use('Agg')
 from matplotlib import pyplot as plot
 
-# from data.voc_dataset import VOC_BBOX_LABEL_NAMES
+# from VOCdevkit.voc_dataset import VOC_BBOX_LABEL_NAMES
 
 
 VOC_BBOX_LABEL_NAMES = (
@@ -54,6 +55,7 @@ def vis_image(img, ax=None):
     # CHW -> HWC
     img = img.transpose((1, 2, 0))
     ax.imshow(img.astype(np.uint8))
+    plt.axis('off')
     return ax
 
 

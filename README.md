@@ -23,7 +23,7 @@ conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
 pip install visdom scikit-image tqdm fire ipdb matplotlib torchnet
 
 # start visdom
-nohup python -m visdom.server &
+nohup python3 -m visdom.server &
 
 ```
 
@@ -51,6 +51,7 @@ ex) `voc_data_dir = path/VOCdevkit/VOC2007/`
 ### 3. 학습하기
 ```Bash
 python train.py train --env='fasterrcnn' --plot-every=100
+python -m visdom.server
 ```  
 Some Key arguments:
 
@@ -75,3 +76,4 @@ ssh로 가상 머신에 접속할 때 visdom server를 local 웹 브라우저와
  1 `ssh <Username>@<Host> -p<port> -L localhost:18097:localhost:8097`
  
  2 웹 브라우저 url에 `http://localhost:18097`로 visdom server 접속
+ python test.py --load-path path/to/your/model_checkpoint.pth --voc_data_dir path/to/VOCdevkit/VOC2007/ --env 'fasterrcnn'

@@ -8,6 +8,9 @@ from .util import read_image
 """VOC dataset을 불러오는 모듈
 이미지뿐 아니라 annotation에 xml 파일로 저장되있는
 bbox 좌표나 label 정보 또한 함께 불러온다."""
+import os
+# print("현재 작업 디렉토리:", os.getcwd())
+
 
 class VOCBboxDataset:
     """Bounding box dataset for PASCAL `VOC`_.
@@ -40,8 +43,8 @@ class VOCBboxDataset:
     * :obj:`label.dtype == numpy.int32`
     * :obj:`difficult.dtype == numpy.bool`
     Args:
-        data_dir (string): Path to the root of the training data. 
-            i.e. "/data/image/voc/VOCdevkit/VOC2007/"
+        data_dir (string): Path to the root of the training VOCdevkit.
+            i.e. "/VOCdevkit/image/voc/VOCdevkit/VOC2007/"
         split ({'train', 'val', 'trainval', 'test'}): Select a split of the
             dataset. :obj:`test` split is only available for
             2007 dataset.
@@ -66,8 +69,11 @@ class VOCBboxDataset:
         #             'for 2012 dataset. For 2007 dataset, you can pick \'test\''
         #             ' in addition to the above mentioned splits.'
         #         )
-        id_list_file = os.path.join(
-            data_dir, 'ImageSets/Main/{0}.txt'.format(split))
+
+        # id_list_file = os.path.join(data_dir, 'ImageSets\Main\{0}.txt'.format(split))
+        id_list_file = os.path.join(data_dir, 'ImageSets', 'Main', f"{split}.txt")
+        print(f'abs path: ',os.path.abspath(id_list_file))
+
 
         self.ids = [id_.strip() for id_ in open(id_list_file)]
         self.data_dir = data_dir
@@ -110,7 +116,8 @@ class VOCBboxDataset:
         bbox = np.stack(bbox).astype(np.float32)
         label = np.stack(label).astype(np.int32)
         # When `use_difficult==False`, all elements in `difficult` are False.
-        difficult = np.array(difficult, dtype=np.bool).astype(np.uint8)  # PyTorch don't support np.bool
+        # difficult = np.array(difficult, dtype=np.bool).astype(np.uint8)  # PyTorch don't support np.bool
+        difficult = np.array(difficult, dtype=np.bool_).astype(np.uint8)
 
         # Load a image
         img_file = os.path.join(self.data_dir, 'JPEGImages', id_ + '.jpg')

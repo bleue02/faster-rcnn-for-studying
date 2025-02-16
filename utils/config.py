@@ -3,11 +3,11 @@ from pprint import pprint
 
 # Default Configs for training
 # NOTE that, config items could be overwriten by passing argument through command line.
-# e.g. --voc-data-dir='./data/'
+# e.g. --voc-VOCdevkit-dir='./VOCdevkit/'
 
 class Config:
-    # data
-    voc_data_dir = './VOCdevkit/VOC2007/'
+    # VOCdevkit
+    voc_data_dir = './VOCdevkit/VOCtrainval_06-Nov-2007/VOCdevkit/VOC2007/'
     min_size = 600  # image resize
     max_size = 1000 # image resize
     num_workers = 8

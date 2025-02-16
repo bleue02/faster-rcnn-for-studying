@@ -6,7 +6,7 @@ import matplotlib
 from tqdm import tqdm
 
 from utils.config import opt
-from data.dataset import Dataset, TestDataset, inverse_normalize
+from VOCdevkit.dataset import Dataset, TestDataset, inverse_normalize
 from model.faster_rcnn_vgg16 import FasterRCNNVGG16
 from torch.utils import data as data_
 from trainer import FasterRCNNTrainer
@@ -16,15 +16,18 @@ from utils.eval_tool import eval_detection_voc
 
 # fix for ulimit
 # https://github.com/pytorch/pytorch/issues/973#issuecomment-346405667
-import resource
+import sys
+if os.name == 'posix':
+    import resource
 
-
-rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-resource.setrlimit(resource.RLIMIT_NOFILE, (20480, rlimit[1]))
+    rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (20480, rlimit[1]))
+else:
+    pass
 
 matplotlib.use('agg')
 
-"""이 python 파일은 model, utils, data, trainer를 사용해서 학습을 진행하고, 시각화, logging, 평가 등을 수행하는 파일이다.
+"""이 python 파일은 model, utils, VOCdevkit, trainer를 사용해서 학습을 진행하고, 시각화, logging, 평가 등을 수행하는 파일이다.
 """
 
 def eval(dataloader, faster_rcnn, test_num=10000):
@@ -52,7 +55,7 @@ def train(**kwargs):
     opt._parse(kwargs)
 
     dataset = Dataset(opt)
-    print('load data')
+    print('load VOCdevkit')
     dataloader = data_.DataLoader(dataset, \
                                   batch_size=1, \
                                   shuffle=True, \

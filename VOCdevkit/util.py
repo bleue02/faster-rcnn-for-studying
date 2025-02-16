@@ -111,7 +111,7 @@ def crop_bbox(
     """Translate bounding boxes to fit within the cropped area of an image.
     This method is mainly used together with image cropping.
     This method translates the coordinates of bounding boxes like
-    :func:`data.util.translate_bbox`. In addition,
+    :func:`VOCdevkit.util.translate_bbox`. In addition,
     this function truncates the bounding boxes to fit within the cropped area.
     If a bounding box does not overlap with the cropped area,
     this bounding box will be removed.
